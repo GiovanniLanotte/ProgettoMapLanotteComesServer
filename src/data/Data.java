@@ -30,40 +30,25 @@ public class Data {
 	
 	
 	//TableData(per recuperare le tuple (cioè i dati)) e TableSchema (per recuperare le informazioni della tabella)
-	public Data(){
+	public Data(String table) throws DatabaseConnectionException, SQLException,NoValueException{
 		DbAccess db= new DbAccess();
-		try {
-			db.initConnection();
-		} catch (DatabaseConnectionException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		db.initConnection();
+		
 		attributeSet= new LinkedList<Attribute>();
-		String table="playtennis";
 		TableData td= new TableData();
 		td.DbAccess(db);
 		TableSchema ts = null;
-		try {
-			ts= new TableSchema(db, table);
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+		ts= new TableSchema(db, table);
+		
 		//serve per leggere tutti gli stributi
 		for(int i=0;i<ts.getNumberOfAttributes();i++){
 			TableSchema.Column c=ts.getColumn(i);
 			if(c.isNumber()){
-				try {
-					float max=(float)td.getAggregateColumnValue(table, c, QUERY_TYPE.MAX);
+				float max=(float)td.getAggregateColumnValue(table, c, QUERY_TYPE.MAX);
+				float min=(float)td.getAggregateColumnValue(table, c, QUERY_TYPE.MIN);
+				attributeSet.add(new ContinuousAttribute(c.getColumnName(), i, min, max));
+					
 				
-					float min=(float)td.getAggregateColumnValue(table, c, QUERY_TYPE.MIN);
-					
-					attributeSet.add(new ContinuousAttribute(c.getColumnName(), i, min, max));
-					
-				} catch (SQLException | NoValueException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 			}
 			else{
 				try {
@@ -149,7 +134,14 @@ public class Data {
 
 
 	public static void main(String args[]){
-		Data trainingSet=new Data();
-		System.out.println(trainingSet);
+		Data trainingSet;
+		try {
+			trainingSet = new Data("playtennis");
+			System.out.println(trainingSet);
+		} catch (DatabaseConnectionException | SQLException | NoValueException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 }
