@@ -19,8 +19,6 @@ public class FrequentPatternMiner {
 			Attribute currentAttribute = data.getAttribute(i);
 			if(currentAttribute instanceof DiscreteAttribute){
 				//currentattribute genera item discreti
-			
-			
 			for (int j = 0; j < ((DiscreteAttribute) currentAttribute).getNumberOfDistinctValues(); j++) {
 				DiscreteItem item = new DiscreteItem((DiscreteAttribute) currentAttribute,
 						((DiscreteAttribute) currentAttribute).getValue(j));
@@ -109,18 +107,11 @@ public class FrequentPatternMiner {
 			for(int i=0;i<itemPerRaffinamento.length;i++){
 				boolean elemItemUguali=false;
 				for(int k=0;k<fp.getPatternLength();k++){
-						if(itemPerRaffinamento[i] instanceof DiscreteItem && (fp.getItem(k)) instanceof DiscreteItem){
-							if(itemPerRaffinamento[i].getAttribute().getName().equals((String)fp.getItem(k).getAttribute().getName())){
+						if(itemPerRaffinamento[i].getAttribute().getName().equals((String)fp.getItem(k).getAttribute().getName())){
 								elemItemUguali=true;
 								break;
-							}
 						}
-						if((itemPerRaffinamento[i] instanceof ContinuousItem) && (fp.getItem(k) instanceof ContinuousItem)){
-							if(itemPerRaffinamento[i].getAttribute().getName().equals((String)fp.getItem(k).getAttribute().getName())){
-								elemItemUguali=true;
-								break;
-							}
-						}
+						
 				}
 				if(!elemItemUguali){
 						FrequentPattern fpNew= (FrequentPattern) fp.clone();
