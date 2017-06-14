@@ -14,7 +14,7 @@ public class AssociationRuleMiner {
 			throw new OneLevelPatternException(fp.toString());
 		for(int i=1;i<fp.getPatternLength();i++){
 			AssociationRule ar= confidentAssociationRuleDiscovery(data, fp, minConf, i);
-			if(ar.getConfidence()>minConf){
+			if(ar.getConfidence()>=minConf){
 				outputAR.add(ar);
 			}
 			
@@ -46,7 +46,7 @@ static float  computeConfidence(Data data, AssociationRule AR){
 	for(int i=0;i<data.getNumberOfExamples();i++){
 		int antecedenteEsatto=0;
 		for(int j=0;j<AR.getAntecedentLength();j++){
-			if(AR.getAntecedentItem(j).getValue().equals(data.getAttributeValue(i, AR.getAntecedentItem(j).getAttribute().getIndex()))){
+			if(AR.getAntecedentItem(j).checkItemCondition(data.getAttributeValue(i, AR.getAntecedentItem(j).getAttribute().getIndex()))){
 				antecedenteEsatto++;
 			}
 		}
@@ -54,7 +54,7 @@ static float  computeConfidence(Data data, AssociationRule AR){
 			numAntecedente++;
 			int conseguenteEsatto=0;
 			for(int j=0;j<AR.getConsequentLength();j++){
-				if(AR.getConsequentItem(j).getValue().equals(data.getAttributeValue(i, AR.getConsequentItem(j).getAttribute().getIndex()))){
+				if(AR.getConsequentItem(j).checkItemCondition(data.getAttributeValue(i, AR.getConsequentItem(j).getAttribute().getIndex()))){
 					conseguenteEsatto++;
 				}
 			}
