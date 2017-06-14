@@ -51,25 +51,20 @@ public class Data {
 				
 			}
 			else{
-				try {
-					List<Object>elem= td.getDistinctColumnValues(table, c);
-					String[] elementi= new String[elem.size()];
-					int k=0;
-					for(Object o: elem){
-						elementi[k]=(String) o;
-						k++;
-					}
-					attributeSet.add(new DiscreteAttribute(c.getColumnName(), i, elementi));
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+				List<Object>elem= td.getDistinctColumnValues(table, c);
+				String[] elementi= new String[elem.size()];
+				int k=0;
+				for(Object o: elem){
+					elementi[k]=(String) o;
+					k++;
 				}
+				attributeSet.add(new DiscreteAttribute(c.getColumnName(), i, elementi));
+				
 				
 			}
 			
 		}
 		//inseriamo gli elementi all'interno di data
-		try {
 			List<TupleData> listElem=td.getTransazioni(table);
 			numberOfExamples=listElem.size();
 			data= new Object[numberOfExamples][attributeSet.size()];
@@ -82,17 +77,8 @@ public class Data {
 					k++;
 				}
 			}
-		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-		
-		try {
 			db.closeConnection();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 		
 	}
 	
