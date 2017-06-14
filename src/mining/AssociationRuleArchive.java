@@ -52,12 +52,7 @@ public class AssociationRuleArchive implements Serializable {
 		Set<FrequentPattern> keys=archive.keySet();
 		int i=1;
 		for(FrequentPattern fp: keys){
-			
-			try{
-				stringa+= new Integer(i).toString()+"."+fp+"\n"+ getRules(fp)+"\n";
-			}catch (NoPatternExcemption e) {
-				System.out.println(e);
-			}
+			stringa+= new Integer(i).toString()+"."+fp+"\n"+ archive.get(fp)+"\n";
 			i++;
 		}
 		return stringa;
